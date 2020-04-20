@@ -5,14 +5,14 @@ module.exports = {
     register
 }
 
-function find(id) {
-    if (id) return db('users').where('id', id);
+function find(filter) {
+    if (filter) return db('users').where(filter);
     else return db('users');
 }
 
 function register(user) {
     return db('users').insert(user, 'id')
     .then(([id]) => {
-        return find(id);
+        return find({ id });
     });
 }
