@@ -16,7 +16,7 @@
 .window { 
   box-shadow:0 8px 32px #aaa;
   padding:20px;
-  height:40%;
+  height:320px;
   width:30%;
 }
 
@@ -36,4 +36,33 @@ form {
 
 form * {
   width:80%;
+  margin:10px;
+}
+
+.error {
+  height:50px;
+}
+
+.input {
+  width:100%;
+  margin:0;
+  padding:0;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.icon {
+  position: absolute;
+  z-index: 1;
+  padding: 0 30px 20px 0;
+  font-size:2rem;
+  width:10px;
+  font-size:100px;
+  color:grey;
+}
+
+.icon:hover {
+  color:black!important;
+  cursor:pointer;
 }

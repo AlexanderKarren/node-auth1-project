@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
 import Users from './components/Users';
+import Register from './components/Register';
+import Login from './components/Login';
 import './App.css';
 
 function App() {

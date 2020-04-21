@@ -17,13 +17,19 @@ const sessionConfig = {
     cookie: {
       maxAge: 1000 * 60, // good for one minute
       secure: process.env.USE_SECURE_COOKIES || false, // used over https only, set to true in production
-      httpOnly: false, // true means JS on the client cannot access the cooke
+      httpOnly: true, // true means JS on the client cannot access the cooke
     },
   };
 
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    credentials: true
+}
+
 server.use(express.json());
 server.use(helmet());
-server.use(cors());
+server.use(cors(corsOptions));
 server.use(session(sessionConfig));
 
 server.use('/api', credentialsRouter);

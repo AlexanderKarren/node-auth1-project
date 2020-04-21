@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import axios from 'axios'
-import { Input, Button, Loader, Dimmer } from 'semantic-ui-react'
+import axios from '../utils/axiosWithAuth'
+import { Input, Button, Loader, Dimmer, Icon } from 'semantic-ui-react'
 
 const Login = () => {
     const [values, updateValues] = useState({
@@ -10,6 +10,7 @@ const Login = () => {
     })
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [hidePassword, setHidePass] = useState(true);
     const { push } = useHistory();
 
     const handleChanges = event => {
@@ -21,18 +22,25 @@ const Login = () => {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        setLoading(true);
-        setError("");
-        await axios.post("http://localhost:4000/api/login", values)
-        .then(response => {
-            console.log(response);
-            push("/users");
+        let fieldsEmpty = false;
+        Object.values(values).forEach(value => {
+            if (value.length <= 0) fieldsEmpty = true;
         })
-        .catch(error => {
-            console.log(error.response.data.error);
-            setError(error.response.data.error);
-        });
-        setLoading(false);
+        if (!fieldsEmpty) {
+            setLoading(true);
+            setError("");
+            await axios.post("/api/login", values)
+            .then(response => {
+                console.log(response);
+                push("/users");
+            })
+            .catch(error => {
+                console.log(error.response.data.error);
+                setError(error.response.data.error);
+            });
+            setLoading(false);
+        }
+        else setError("Both fields are required.")
     }
 
     return (
@@ -44,11 +52,15 @@ const Login = () => {
             </div>}
             <h1>Users App</h1>
             <form onSubmit={handleSubmit}>
-                <Input placeholder="Username" onChange={handleChanges} name="username"/>
-                <Input placeholder="Password" onChange={handleChanges} name="password"/>
+                <div className="input"><Input placeholder="Username" onChange={handleChanges} name="username"/></div>
+                <div className="input">
+                        {hidePassword ?
+                        <Icon name="eye slash" size="large" onClick={() => setHidePass(false)} /> :
+                        <Icon name="eye" size="large" onClick={() => setHidePass(true)} />}
+                    <Input placeholder="Password" onChange={handleChanges} name="password" type={hidePassword ? "password" : "text"} /></div>
                 <Button primary>Login</Button>
             </form>
-            <div>{error}</div>
+            <div className="error">{error}</div>
             <div>Don't have an account? <Link to="/register">Sign up!</Link></div>
         </div>
     )

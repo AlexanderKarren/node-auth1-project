@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../utils/axiosWithAuth';
 
 const Users = () => {
     const [users, updateUsers] = useState([]);
@@ -8,7 +8,7 @@ const Users = () => {
 
     useEffect(() => {
         axios.get("http://localhost:4000/api/users")
-        .then(response => updateUsers(response))
+        .then(response => updateUsers(response.data))
         .catch(error => setError(error.response.data.error));
     })
 

@@ -46,6 +46,7 @@ const Register = () => {
             <form onSubmit={handleSubmit}>
                 <Input placeholder="Username" onChange={handleChanges} name="username"/>
                 <Input placeholder="Password" onChange={handleChanges} name="password"/>
+                <Input placeholder="Confirm Password" onChange={handleChanges} name="confirmPassword"/>
                 <Button primary>Register</Button>
             </form>
             <div>{error}</div>
